@@ -13,3 +13,5 @@ clicking the image rotates thru 90 degrees...
 written by hand in notepad++
 
 As an exersize in complexity from simplicity.
+
+![Fractal Image](mandelbrot.gif) 
