@@ -1,0 +1,65 @@
+<canvas id="zen" width="1000" height="1000" onclick="rotateMandelbrot()"></canvas>
+<div>
+    <label for="shape">Shape:</label>
+    <input type="text" id="shape" value="2000">
+    <label for="zoom">Zoom:</label>
+    <input type="text" id="zoom" value="200">
+    <button onclick="renderMandelbrot()">Render</button>
+</div>
+
+<script>
+    let rotationAngle = 0;
+
+    const canvas = document.getElementById("zen");
+    const ctx = canvas.getContext("2d");
+
+    const atom = function(x, y, c) {
+        ctx.fillStyle = c;
+        ctx.fillRect(x, y, 3, 3);
+    };
+
+    // Function to rotate the Mandelbrot set by 90 degrees
+    function rotateMandelbrot() {
+        rotationAngle += Math.PI / 2; // Increment rotation by 90 degrees in radians
+        renderMandelbrot(); // Re-render the Mandelbrot set with the new rotation
+    }
+
+    function getColor(iterations) {
+        const r = Math.floor(iterations * 3 % 255);
+        const g = Math.floor(iterations % 255);
+        const b = Math.floor(iterations * 0.5 % 255);
+        return `rgb(${r},${g},${b})`;
+    }
+
+    function renderMandelbrot() {
+        const shape = parseFloat(document.getElementById("shape").value);
+        const zoom = parseFloat(document.getElementById("zoom").value);
+
+        for (let y = 1; y < 1000; y++) {
+            for (let x = 1; x < 1000; x++) {
+                const dx = (x - 500) / shape - 0.12;
+                const dy = (y - 500) / shape - 0.82;
+                let a = dx * Math.cos(rotationAngle) - dy * Math.sin(rotationAngle);
+                let b = dx * Math.sin(rotationAngle) + dy * Math.cos(rotationAngle);
+
+                let iterations = 0;
+
+                for (let t = 1; t < zoom; t++) {
+                    const d = a * a - b * b + dx;
+                    b = 2 * a * b + dy;
+                    a = d;
+
+                    iterations++;
+
+                    if (a * a + b * b > 4) {
+                        break;
+                    }
+                }
+
+                atom(x, y, getColor(iterations));
+            }
+        }
+    }
+
+    renderMandelbrot(); // Render Mandelbrot set on page load
+</script>
