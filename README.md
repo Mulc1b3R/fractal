@@ -14,4 +14,4 @@ written by hand in notepad++
 
 As an exersize in complexity from simplicity.
 
-![Fractal Image](mandelbrot.gif) 
+![Fractal Image](Mandelbrot.gif) 
